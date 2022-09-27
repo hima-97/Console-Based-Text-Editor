@@ -14,31 +14,36 @@ public:
 	struct Node
 	{
 		char letter;
-		Node* next; // Pointer variable "next" of the class "Node"
-		Node* prev; // Pointer variable "prev" of the class "Node"
-		Node() { next = nullptr; prev = nullptr; letter = ' '; } // Default constructor that initializes "letter" and makes the pointers "next" and "prev" point
-		// to nothing everytime an object of the "Node" class is created
-		Node(char c) { next = nullptr; prev = nullptr; letter = c; } // Parametrized constructor that assigns "c" to "letter" and makes the pointers "next" and "prev" point
-		// to nothing everytime an object of the "Node" class is created
+		Node* next; // Pointer of type "Node" and named "next"
+		Node* prev; // Pointer of type "Node" and named "prev"
+		// Default constructor:
+		Node() { next = nullptr; prev = nullptr; letter = ' '; }
+		// Parametrized constructor:
+		Node(char c) { next = nullptr; prev = nullptr; letter = c; }
 	};
 
-	Node* start = nullptr; // Creating and initializing a pointer named "start"
-	Node* current = nullptr; // Creating and initializing a pointer named "current", which will move according to the cursor position
-	int x = 0, y = 0; // X and Y coordinates for the cursor position
-	char c;
-	Node* rows[20]; // Array of pointers of the class "Node", used to write in multiple rows/lines
+	// Pointer of type "Node" and named "start" to track the beginning of a line:
+	Node* start = nullptr;
+	// Pointer of type "Node" and named "current" to track current position in linkedlist (i.e. cursor position):
+	Node* current = nullptr;
+	// Pointer of type "Node" and named "end" to track the end of a line:
+	Node* end = nullptr;
+
+	// X,Y coordinates for current position (i.e. cursor position):
+	int x = 0, y = 0;
+
+	// Input key:
+	char inputKey;
+
+	// Array pointer of type "Node" to track the lines in the text editor:
+	// Note: text editor supports only 500 lines max.
+	Node* rows[500];
 
 	// Function to set the position of the cursor (note: #include <windows.h> to make it work):
 	void goToxy(int x, int y);
 
-	// Use this line to be able to change the text color from now on:
-	HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
-
 	// Function to run the text editor:
 	void runEditor();
-
-	// Function to get a random number from 1 to 15:
-	int randomColor();
 
 	// Function to move cursor to the left:
 	bool moveLeft();
@@ -52,18 +57,18 @@ public:
 	// Function to move the cursor down:
 	bool moveDown();
 
-	// Function to insert a new node in the Linked list:
+	// Function to insert a new node (i.e. letter) in the Linked list:
 	void insertNode(char letter);
 
-	// Function to delete a node in the Linked list:
+	// Function to delete a node (i.e. letter) in the Linked list:
 	void deleteNode();
 
-	// Function to insert a new row/line:
+	// Function to insert a new row/line of nodes (i.e. letters):
 	void addRow();
 
-	// Function to print the linked list:
+	// Function to print the linked list (i.e. text):
 	void printList();
 
-	// Function to save into a file:
+	// Function to save the linkedlist (i.e. text) into a file:
 	void saveFile();
 };

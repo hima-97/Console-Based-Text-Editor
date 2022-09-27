@@ -9,34 +9,87 @@ void Linkedlist::goToxy(int x, int y)
 	SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), coord);
 }
 
-// Function to get a random number from 1 to 15:
-int Linkedlist::randomColor()
+// Function to run the text editor:
+void Linkedlist::runEditor()
 {
-	int i;
-
-	i = (rand() % 15) + 1;
-
-	if (i != 1)
+	// Loop that executes until esc key is pressed:
+	while ((inputKey = _getch()) != 27)
 	{
-		return i;
+		// Checking if an arrow key is pressed:
+		if ((int)inputKey == -32)
+		{
+			inputKey = _getch(); // This reads the user input (note: #include <conio.h> to make it work)
+
+			// Left arrow pressed:
+			if ((int)inputKey == 75)
+			{
+				moveLeft();
+			}
+			// Right arrow pressed:
+			else if ((int)inputKey == 77)
+			{
+				moveRight();
+			}
+			// Up arrow pressed:
+			else if ((int)inputKey == 72)
+			{
+				moveUp();
+			}
+			// Down arrow pressed:
+			else if ((int)inputKey == 80)
+			{
+				moveDown();
+			}
+		}
+		// Backspace pressed:
+		else if (inputKey == 8)
+		{
+			// Function to delete a node in the linked list:
+			deleteNode();
+		}
+		// Enter pressed:
+		else if (inputKey == 13)
+		{
+			// Function to insert a new row/line:
+			addRow();
+		}
+		// Tab pressed:
+		else if (inputKey == 9)
+		{
+			// Do nothing
+		}
+		else
+		{
+			// Function to insert a node in the linked list:
+			insertNode(inputKey);
+		}
+
+		// Function to print the linked list:
+		printList();
 	}
+
+	// Function to save text into a file:
+	saveFile();
 }
 
 // Function to move cursor to the left:
 bool Linkedlist::moveLeft()
 {
-	// As long as the screen does not end, the cursor can move to the left:
+	// If the screen does not end:
 	if (x > 0)
 	{
-		x--; // Cursor moves to the left
+		// Cursor moves left:
+		x--;
 
+		// If left/previous node is not empty, then it becomes the new "current":
 		if (current->prev != nullptr)
 		{
-			current = current->prev; // "current" moves to the left (as long as the left/previous node is not empty)
+			current = current->prev;
 		}
+		// You are at the beginning of a line:
 		else
 		{
-			current = start; // If "current" is at the beginning, then it means it's equal to "start"
+			current = start;
 		}
 		return true;
 	}
@@ -47,11 +100,22 @@ bool Linkedlist::moveLeft()
 // Function to move cursor to the right:
 bool Linkedlist::moveRight()
 {
-	if (current->next != nullptr)
+	// If current and right/next node are not empty, then it becomes the new "current":
+	if (current != nullptr && current->next != nullptr)
 	{
-		x++; // Cursor moves to the right (as long as the right/next node is not empty)
+		// Cursor moves right:
+		x++;
 
-		current = current->next; // "current" moves to the right (as long as the right/next node is not empty)
+		// If right/next node is not empty, then it becomes the new "current":
+		if (current->next != nullptr)
+		{
+			current = current->next;
+		}
+		// You are at the end of a line:
+		else
+		{
+			current = end;
+		}
 		return true;
 	}
 	else
@@ -61,38 +125,40 @@ bool Linkedlist::moveRight()
 // Function to move the cursor up:
 bool Linkedlist::moveUp()
 {
-	// As long as the screen does not end, the cursor can move up:
+	// If screen does not end:
 	if (y > 0)
 	{
-		y--; // Cursor moves up
+		// Cursor moves up:
+		y--; 
 
 		// This keeps track of the number of nodes (i.e. letters) in the linkedlist before "current":
-		int counter = 0;
+		int numberOfNodesBeforeCurrent = 0;
 		Node* temp = start;
 		while (temp != current)
 		{
 			temp = temp->next;
-			counter++;
+			numberOfNodesBeforeCurrent++;
 		}
 
 		/*
-		Once the cursor goes up, you need to start from the beginning of the line and move "current"
-		as many times as the number of nodes counted (i.e. value of "counter") in the line below, using a new counter variable,
-		unless there is	no node (i.e. letter) after "current" (Note: make also sure that the row/line above is not empty):
+		When you move up, you need to count the numer of nodes before the cursor in the line you are moving from
+		and leave the same amount of nodes in the new current line before placing the cursor back:
 		*/
-		x = 0;
-		int counter2 = 0;
+		int countNodes = 0;
 		start = rows[y];
 		current = start;
+		x = 0; // Starting position for counting and finding final x position
+
+		// Checking if line above is not empty:
 		if (current == nullptr)
 		{
 			return true;
 		}
 		else
 		{
-			while (current->next != nullptr && counter2 != counter)
+			while (current->next != nullptr && countNodes != numberOfNodesBeforeCurrent)
 			{
-				counter2++;
+				countNodes++;
 				current = current->next;
 				x++;
 			}
@@ -106,32 +172,32 @@ bool Linkedlist::moveUp()
 // Function to move the cursor down:
 bool Linkedlist::moveDown()
 {
-	// As long as there is a new row/line below, the cursor can move up:
+	// If there is a new row/line below:
 	if (rows[y + 1] != nullptr)
 	{
-		y++; // Cursor moves down
+		// Cursor moves down:
+		y++;
 
 		// This keeps track of the number of nodes (i.e. letters) in the linkedlist before "current":
-		int counter = 0;
+		int numberOfNodesBeforeCurrent = 0;
 		Node* temp = start;
 		while (temp != current)
 		{
 			temp = temp->next;
-			counter++;
+			numberOfNodesBeforeCurrent++;
 		}
 
 		/*
-		Once the cursor goes down, you need to start from the beginning of the line and move "current"
-		as many times as the number of nodes counted (i.e. value of "counter") in the line above, using a new counter variable,
-		unless there is	no node (i.e. letter) after "current":
+		When you move down, you need to count the numer of nodes before the cursor in the line you are moving from
+		and leave the same amount of nodes in the new current line before placing the cursor back:
 		*/
-		x = 0;
-		int counter2 = 0;
+		int countNodes = 0;
 		start = rows[y];
 		current = start;
-		while (current->next != nullptr && counter2 != counter)
+		x = 0; // Starting position for counting and finding final x position
+		while (current->next != nullptr && countNodes != numberOfNodesBeforeCurrent)
 		{
-			counter2++;
+			countNodes++;
 			current = current->next;
 			x++;
 		}
@@ -139,55 +205,6 @@ bool Linkedlist::moveDown()
 	}
 	else
 		return false;
-}
-
-// Function to run the text editor:
-void Linkedlist::runEditor()
-{
-	while ((c = _getch()) != 27) // The loop will break once "esc" is pressed
-	{
-		if ((int)c == -32) // This is a flag checking if the user is pressing an arrow key (ascii = -32)
-		{
-			c = _getch(); // This reads the user input (note: #include <conio.h> to make it work)
-
-			if ((int)c == 75) // Left arrow is pressed
-			{
-				moveLeft();
-			}
-			else if ((int)c == 77) // Right arrow is pressed
-			{
-				moveRight();
-			}
-			else if ((int)c == 72) // Up arrow is pressed
-			{
-				moveUp();
-			}
-			else if ((int)c == 80) // Down arrow is pressed
-			{
-				moveDown();
-			}
-		}
-		else if (c == 8) // Backspace is pressed
-		{
-			// Function to delete a node in the linked list:
-			deleteNode();
-		}
-		else if (c == 13) // Enter is pressed
-		{
-			// Function to insert a new row/line:
-			addRow();
-		}
-		else
-		{
-			// Function to insert a node in the linked list:
-			insertNode(c);
-		}
-
-		// Function to print the linked list:
-		printList();
-	}
-	// Function to save into a file:
-	saveFile();
 }
 
 // Function to insert a node in the Linked list:
@@ -205,9 +222,6 @@ void Linkedlist::insertNode(char letter)
 	// Code to type and allocate the rest of the charachters:
 	else
 	{
-		// This changes the color of the text (random color):
-		SetConsoleTextAttribute(hConsole, randomColor());
-
 		Node* temp = new Node(letter); // Every time the user types a letter, a new "temp" pointer gets created, pointing to a new "Node" class
 
 		// Code to type at the end of the linked list:
@@ -366,3 +380,4 @@ void Linkedlist::saveFile()
 	}
 	outfile.close(); // This closes the output file
 }
+

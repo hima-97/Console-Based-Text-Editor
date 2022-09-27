@@ -2,79 +2,46 @@
 
 void File::menu()
 {
-	// This changes the color of the screen to aqua:
-	system("color 3F");
-
-	// This changes the color of the text to dark red:
-	SetConsoleTextAttribute(hConsole, 52);
-	goToxy(31, 6);
 	printf("      Commands:       ");
-	goToxy(31, 8);
 	// This creates the menu bar:
-	cout << char(220) << char(220)
-		<< char(220) << char(220)
-		<< char(220) << char(220)
-		<< char(220) << char(220)
-		<< char(220) << char(220)
-		<< char(220) << char(220)
-		<< char(220) << char(220)
-		<< char(220) << char(220)
-		<< char(220) << char(220)
-		<< char(220) << char(220);
+	cout << "\n---------------------" << endl;
 
-	// This changes the color of the text to black:
-	SetConsoleTextAttribute(hConsole, 48);
-	goToxy(31, 10);
-	printf("1: New File ");
-	goToxy(31, 11);
-	printf("2: Load File ");
-	goToxy(31, 12);
-	printf("Esc: Exit/Save File ");
+	printf("\n1: New File ");
+	printf("\n2: Load File ");
+	printf("\n3: Exit/Save File \n\n");
 
-	// This changes the color of the text to dark red:
-	SetConsoleTextAttribute(hConsole, 52);
-	goToxy(31, 13);
-	// This creates the menu bar:
-	cout << char(220) << char(220)
-		<< char(220) << char(220)
-		<< char(220) << char(220)
-		<< char(220) << char(220)
-		<< char(220) << char(220)
-		<< char(220) << char(220)
-		<< char(220) << char(220)
-		<< char(220) << char(220)
-		<< char(220) << char(220)
-		<< char(220) << char(220)
-		<< endl;
-
-	// This changes the color of the text to black:
-	SetConsoleTextAttribute(hConsole, 48);
-	goToxy(31, 16);
 	int choice = 0;
 	cin >> choice;
 
-	// If "1" is pressed:
-	if (choice == 1)
+	switch (choice)
 	{
-		// This clears the screen:
-		system("cls");
-		// This changes the color of the screen back to black:
-		system("color 0F");
-		// Function to run the text editor:
-		runEditor();
-	}
-	else if (choice == 2)
-	{
-		// This clears the screen:
-		system("cls");
-		// This changes the color of the screen back to black:
-		system("color 0F");
-
-		// Function to load a file into the text editor:
-		loadFile();
+		// For new file:
+		case 1:
+		{
+			// This clears the screen:
+			system("cls");
+			// Function to run the text editor:
+			runEditor();
+		}
+		// For uploading file:
+		case 2:
+		{
+			// This clears the screen:
+			system("cls");
+			// Function to run the text editor:
+			loadFile();
+		}
+		// To exit:
+		default:
+		{
+			// This clears the screen once the user exit the program:
+			system("cls");
+			cout << "Thank you for using The Console-Based Text Editor, goodbye!\n\n\n\n" << endl;
+		}
 	}
 }
 
+// Function to load from a file:
 void File::loadFile()
 {
 	ifstream infile;

@@ -1,13 +1,13 @@
 #pragma once
 #include "Linkedlist.h"
-#include <fstream>
 
 class File : public Linkedlist
 {
 public:
-	File() {}; // Default constructor
+	// Default constructor:
+	File() {}; 
 
-	// Class function to display the menu:
+	// Function to display the menu:
 	void menu();
 
 	// Function to load from a file:
