@@ -1,20 +1,17 @@
-// Console-Based Text Editor.cpp : This file contains the 'main' function. Program execution begins and ends there.
-//
-
 #include <iostream>
+#include "Linkedlist.h"
+#include "File.h"
 
-int main()
+void main()
 {
-    std::cout << "Hello World!\n";
+	//char c;
+	Linkedlist L; // Object of the "Linkedlist" class
+	File F; // Object of the "File" class
+
+	F.menu(); // This calls the menu function
+
+	// This clears the screen once the user exit the program:
+	system("cls");
+	cout << "You have exit the text editor:" << endl;
+	cout << "Your file has been saved under 'Output.txt' in C:\\temp\\Output.txt" << endl << endl;
 }
-
-// Run program: Ctrl + F5 or Debug > Start Without Debugging menu
-// Debug program: F5 or Debug > Start Debugging menu
-
-// Tips for Getting Started: 
-//   1. Use the Solution Explorer window to add/manage files
-//   2. Use the Team Explorer window to connect to source control
-//   3. Use the Output window to see build output and other messages
-//   4. Use the Error List window to view errors
-//   5. Go to Project > Add New Item to create new code files, or Project > Add Existing Item to add existing code files to the project
-//   6. In the future, to open this project again, go to File > Open > Project and select the .sln file
