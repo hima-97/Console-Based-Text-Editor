@@ -210,55 +210,48 @@ bool Linkedlist::moveDown()
 // Function to insert a node in the Linked list:
 void Linkedlist::insertNode(char letter)
 {
+	// Every time the user presses a letter, a new "temp" pointer gets created pointing to a new "Node" with the letter in it:
+	Node* temp = new Node(letter);
+
 	// Code to type and allocate the first character of the text editor:
 	if (start == nullptr)
 	{
-		Node* temp = new Node(letter);
 		start = temp;
 		current = start;
 		rows[y] = start;
-		//x++; // Cursor moves to the right
 	}
 	// Code to type and allocate the rest of the charachters:
 	else
 	{
-		Node* temp = new Node(letter); // Every time the user types a letter, a new "temp" pointer gets created, pointing to a new "Node" class
-
 		// Code to type at the end of the linked list:
 		if (current->next == nullptr)
 		{
 			current->next = temp;
 			temp->prev = current;
 			current = temp;
-			x++; // Cursor moves to the right
+		}
+		// Code to type in between the linked list:
+		else if (current->next != nullptr && x != 0)
+		{
+			temp->prev = current;
+			temp->next = current->next;
+			current->next->prev = temp;
+			current->next = temp;
+			current = temp;
 		}
 		// Code to type at the beginning of the linked list:
-		else if (current == start)
+		else if (current == start && x == 0)
 		{
 			temp->next = start;
 			start->prev = temp;
-			current = start;
 			start = temp;
+			current = start;
 			rows[y] = start;
-			x++; // Cursor moves to the right
-		}
-		// Code to type in between the linked list:
-		else if (current->next != nullptr)
-		{
-			/*temp->next = current->next;
-			current->next->prev = temp;
-			temp->prev = current;
-			current->next = temp;
-			current = temp;*/
-			x++; // Cursor moves to the right
-
-			temp->next = current;
-			temp->prev = current->prev;
-			current->prev->next = temp;
-			current->prev = temp;
-			temp = current;
 		}
 	}
+
+	// Cursor moves right:
+	x++; 
 }
 
 // Function to delete a node in the Linked list:
@@ -277,8 +270,8 @@ void Linkedlist::deleteNode()
 	{
 		delete start; // Note: you only deleted the location, but not the pointer (it can be re-used)
 		start = nullptr;
-		rows[y] = start;
 		current = start;
+		rows[y] = start;
 	}
 	// This deletes a node at the beginning of the linked list:
 	else if (current == start && current->next != nullptr)
@@ -296,7 +289,6 @@ void Linkedlist::deleteNode()
 		current = current->prev;
 		delete current->next;
 		current->next = nullptr;
-		x--; // Cursor moves to the left
 	}
 	// This deletes a node in between of the linked list:
 	else
@@ -308,7 +300,6 @@ void Linkedlist::deleteNode()
 			current->next->prev = current->prev;
 			current = temp->prev;
 			delete temp;
-			x--;
 		}
 		else
 		{
@@ -317,9 +308,11 @@ void Linkedlist::deleteNode()
 			current->next->prev = start;
 			current = start;
 			delete temp;
-			x = 0;
 		}
 	}
+
+	// Cursor moves left:
+	x--;
 }
 
 // Function to insert a new row/line:

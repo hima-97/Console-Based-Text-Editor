@@ -2,13 +2,14 @@
 
 void File::menu()
 {
-	printf("      Commands:       ");
+	printf("   CONSOLE-BASED TEXT EDITOR:       ");
 	// This creates the menu bar:
-	cout << "\n---------------------" << endl;
+	cout << "\n--------------------------------" << endl;
 
 	printf("\n1: New File ");
 	printf("\n2: Load File ");
-	printf("\n3: Exit/Save File \n\n");
+	printf("\n3: Exit");
+	printf("\n\nSelect an option: ");
 
 	int choice = 0;
 	cin >> choice;
