@@ -338,7 +338,7 @@ void Linkedlist::printList()
 			cout << temp->letter;
 			temp = temp->next;
 		}
-		// Start new line to print next incoing line:
+		// Start new line to print next incoming line:
 		cout << endl;
 	}
 	goToxy(x, y);
@@ -363,7 +363,8 @@ void Linkedlist::saveFile()
 			outfile << temp->letter;
 			temp = temp->next;
 		}
-		outfile << endl; // After a line is printed, it's time to start the next line 
+		// Start new line to print next incoming line:
+		outfile << endl;
 	}
-	outfile.close(); // This closes the output file
+	outfile.close();
 }
