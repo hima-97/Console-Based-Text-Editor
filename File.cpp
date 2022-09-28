@@ -9,6 +9,7 @@ void File::menu()
 	printf("\n1: New File ");
 	printf("\n2: Load File ");
 	printf("\n3: Exit");
+	printf("\n\nNote: Press ESC key twice at any time to close the editor and save your work");
 	printf("\n\nSelect an option: ");
 
 	int choice = 0;
@@ -37,7 +38,8 @@ void File::menu()
 		{
 			// This clears the screen once the user exit the program:
 			system("cls");
-			cout << "Thank you for using The Console-Based Text Editor, goodbye!\n\n\n\n" << endl;
+			cout << "Thank you for using The Console-Based Text Editor\n";
+			cout << "Your work has been saved in the 'MyText.txt' file, Goodbye!\n\n\n\n" << endl;
 		}
 	}
 }

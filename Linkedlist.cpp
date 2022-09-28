@@ -81,15 +81,13 @@ bool Linkedlist::moveLeft()
 		// Cursor moves left:
 		x--;
 
+		// You are at the beginning of a line:
+		if (x == 0 || x == 1)
+			current = start;
 		// If left/previous node is not empty, then it becomes the new "current":
-		if (current->prev != nullptr)
+		else if (current->prev != nullptr)
 		{
 			current = current->prev;
-		}
-		// You are at the beginning of a line:
-		else
-		{
-			current = start;
 		}
 		return true;
 	}
@@ -106,15 +104,15 @@ bool Linkedlist::moveRight()
 		// Cursor moves right:
 		x++;
 
-		// If right/next node is not empty, then it becomes the new "current":
-		if (current->next != nullptr)
+		// If after moving to the right you are at x = 1 position, then it means the current node is still the start node:
+		if (x == 1)
 		{
-			current = current->next;
+			current = start;
 		}
-		// You are at the end of a line:
+		// If right/next node is not empty, then it becomes the new "current":
 		else
 		{
-			current = end;
+			current = current->next;
 		}
 		return true;
 	}
@@ -249,7 +247,6 @@ void Linkedlist::insertNode(char letter)
 			rows[y] = start;
 		}
 	}
-
 	// Cursor moves right:
 	x++; 
 }
@@ -272,47 +269,42 @@ void Linkedlist::deleteNode()
 		start = nullptr;
 		current = start;
 		rows[y] = start;
+		x = 0;
 	}
 	// This deletes a node at the beginning of the linked list:
 	else if (current == start && current->next != nullptr)
 	{
-		temp = start;
-		start = start->next;
-		start->prev = temp;
-		delete temp;
-		rows[y] = start;
-		current = start;
+		if (x != 0)
+		{
+			temp = start;
+			start = start->next;
+			delete temp;
+			current = start;
+			rows[y] = start;
+			x--;
+		}
+		else
+			return;
 	}
 	// This deletes a node at the end of the linked list:
 	else if (current->next == nullptr)
 	{
+		temp = current;
 		current = current->prev;
-		delete current->next;
 		current->next = nullptr;
+		delete temp;
+		x--;
 	}
 	// This deletes a node in between of the linked list:
 	else
 	{
-		if (current->prev != start)
-		{
-			temp = current;
-			current->prev->next = current->next;
-			current->next->prev = current->prev;
-			current = temp->prev;
-			delete temp;
-		}
-		else
-		{
-			temp = current;
-			start->next = current->next;
-			current->next->prev = start;
-			current = start;
-			delete temp;
-		}
+		temp = current;
+		current->prev->next = current->next;
+		current->next->prev = current->prev;
+		current = current->prev;
+		delete temp;
+		x--;
 	}
-
-	// Cursor moves left:
-	x--;
 }
 
 // Function to insert a new row/line:
@@ -321,8 +313,8 @@ void Linkedlist::addRow()
 	y++; // Cursor moves down
 	x = 0; // Cursor moves to far left
 	start = nullptr;
-	rows[y] = start;
 	current = start;
+	rows[y] = start;
 }
 
 // Function to print the linked list:
@@ -334,36 +326,38 @@ void Linkedlist::printList()
 
 	Node* temp;
 
-	// This loop will print everything until the array is empty (i.e. there are no more rows. Note: size of array is 20)
+	// This loop will print everything until the array is empty (i.e. there are no more rows/lines):
+	// Note: text editor supports only 20 lines
 	for (int i = 0; i < 20; i++)
 	{
 		temp = rows[i];
 
-		// This prints one linked list (i.e. one row)
+		// This prints one linked list (i.e. one row/line)
 		while (temp != nullptr)
 		{
 			cout << temp->letter;
 			temp = temp->next;
 		}
-		cout << endl; // After a line is printed, it's time to start the next line 
+		// Start new line to print next incoing line:
+		cout << endl;
 	}
 	goToxy(x, y);
 }
 
 void Linkedlist::saveFile()
 {
-	ofstream outfile; // Object of the class
-
-	outfile.open("C:\\temp\\Output.txt"); // This opens the output file
+	// Object to write to external file:
+	ofstream outfile("MyText.txt");
 
 	Node* temp;
 
-	// This loop will print everything until the array is empty (i.e. there are no more rows. Note: size of array is 20)
+	// This loop will print everything until the array is empty (i.e. there are no more rows/lines):
+	// Note: text editor supports only 20 lines
 	for (int i = 0; i < 20; i++)
 	{
 		temp = rows[i];
 
-		// This prints one linked list (i.e. one row)
+		// This prints one linked list (i.e. one row/line)
 		while (temp != nullptr)
 		{
 			outfile << temp->letter;
@@ -373,4 +367,3 @@ void Linkedlist::saveFile()
 	}
 	outfile.close(); // This closes the output file
 }
-

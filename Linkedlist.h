@@ -3,6 +3,7 @@
 #include <string>
 #include <conio.h>
 #include <windows.h>
+#include<array> // Used for array built-in functions
 #include <cstdlib>  // Used for random
 #include <fstream> // Used for file manipulation
 using namespace std;
@@ -26,8 +27,6 @@ public:
 	Node* start = nullptr;
 	// Pointer of type "Node" and named "current" to track current position in linkedlist (i.e. cursor position):
 	Node* current = nullptr;
-	// Pointer of type "Node" and named "end" to track the end of a line:
-	Node* end = nullptr;
 
 	// X,Y coordinates for current position (i.e. cursor position):
 	int x = 0, y = 0;
@@ -36,8 +35,8 @@ public:
 	char inputKey;
 
 	// Array pointer of type "Node" to track the lines in the text editor:
-	// Note: text editor supports only 500 lines max.
-	Node* rows[500];
+	// Note: text editor supports only 20 lines max.
+	Node* rows[20];
 
 	// Function to set the position of the cursor (note: #include <windows.h> to make it work):
 	void goToxy(int x, int y);
