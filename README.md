@@ -1,6 +1,6 @@
 # Poject Description:
 
-This project consists of implementing a basic text editor.
+This project consists of implementing a basic text editor. <br /> 
 This is a console application that runs on Linux, macOS, and Windows systems.
 
 # Functionality:
@@ -22,5 +22,5 @@ This is a console application that runs on Linux, macOS, and Windows systems.
 You can run and test the full project following these steps:
 
 - Clone the repository to your local machine
-- Follow the path Console-Based Text Editor\x64\Debug to locate and play the Console-Based Text Editor.exe file
+- Follow the path `Console-Based Text Editor\x64\Debug` to locate and play the `Console-Based Text Editor.exe` file
 - Once done using the text editor, locate the `MyText.txt` file to see your work
