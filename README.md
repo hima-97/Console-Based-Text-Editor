@@ -15,7 +15,8 @@ This is a console application that runs on Linux, macOS, and Windows systems.
 - Visual Studio
 - Object-Oriented Programming (OOP)
 - Double linked list
-- File manipulation
+- Pointers
+- File handling
 
 # Running and Testing the Project
 
