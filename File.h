@@ -9,7 +9,4 @@ public:
 
 	// Function to display the menu:
 	void menu();
-
-	// Function to load from a file:
-	void loadFile();
 };

@@ -70,6 +70,11 @@ void Linkedlist::runEditor()
 
 	// Function to save text into a file:
 	saveFile();
+
+	// This clears the screen once the user exit the program:
+	system("cls");
+	cout << "Thank you for using the Console-Based Text Editor\n";
+	cout << "Your work has been saved in the 'MyText.txt' file, Goodbye!\n\n\n\n\n";
 }
 
 // Function to move cursor to the left:
