@@ -1,6 +1,6 @@
 # Poject Description
 
-This project consists of implementing a basic text editor. <br /> 
+This project consists of implementing a basic text editor using double linked list. <br /> 
 This is a console application that runs on Linux, macOS, and Windows systems.
 
 # Functionality
